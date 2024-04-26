@@ -1,5 +1,7 @@
+import AnimeCard from "@/components/AnimeCard";
+import { fetchAnime } from "./action";
 import Hero from "@/components/Hero";
-import PaginationLoader from "@/components/PaginationLoader";
+import LoadMore from "@/components/LoadMore";
 
 export default async function Home() {
   const data = await fetchAnime();
@@ -7,8 +9,12 @@ export default async function Home() {
   return (
     <main className="px-[7.25rem]">
       <Hero />
-      
-      <PaginationLoader />
+      <div className="grid md:grid-cols-3 lg:grid-cols-4">
+        {data.map((anime) => (
+          <AnimeCard key={anime.id} anime={anime} />
+        ))}
+      </div>
+      <LoadMore />
     </main>
   );
 }

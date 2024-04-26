@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import AnimeCard from "./AnimeCard";
 
-function PaginationLoader() {
+function LoadMore() {
   const [page, setPage] = useState(2);
 
   const { ref, inView } = useInView();
@@ -57,4 +57,4 @@ function PaginationLoader() {
   );
 }
 
-export default PaginationLoader;
+export default LoadMore;
