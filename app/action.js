@@ -12,3 +12,11 @@ export async function fetchAnimeDetails(id) {
   const data = response.json();
   return data;
 }
+
+export async function fetchSimilarAnimies(id) {
+  const response = await fetch(
+    `https://shikimori.one/api/animes/${id}/similar`
+  );
+  const data = response.json();
+  return data;
+}
