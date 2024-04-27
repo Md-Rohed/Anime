@@ -5,3 +5,10 @@ export async function fetchAnime(page) {
   const data = response.json();
   return data;
 }
+
+
+export async function fetchAnimeDetails(id) {
+  const response = await fetch(`https://shikimori.one/api/animes/${id}`);
+  const data = response.json();
+  return data;
+}
