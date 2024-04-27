@@ -1,24 +1,23 @@
 import {
-  fetchAnimeDetails, fetchAnimieExternalLinks, fetchAnimieScreenshots, fetchSimilarAnimies,
+  fetchAnimeDetails, fetchAnimieExternalLinks, fetchAnimieScreenshots, fetchAnimieVideos, fetchSimilarAnimies,
 } from "@/app/action";
 import AnimeCard from "@/components/animeCard";
 import Image from "next/image";
 import Link from "next/link";
+import { Suspense } from "react";
 
 async function Animes({ params }) {
   const data = await fetchAnimeDetails(params.id);
   const similarData = await fetchSimilarAnimies(params.id);
   const externalLinks = await fetchAnimieExternalLinks(params.id);
   const screenShots = await fetchAnimieScreenshots(params.id);
-
-
-
-  return (
+  const videoUrl = await fetchAnimieVideos(params.id);
+return (
     <div className="pt-[3rem] px-[1.25rem] md:px-[3.25rem] lg:px-[7.25rem]">
       <div className="flex flex-col md:flex-row justify-between gap-[2rem] pb-[2rem] ">
         <div className="flex gap-2">
         <div className="flex flex-col mt-[1rem] gap-2 flex-wrap">
-            {screenShots.slice(0, 8).map((imageData, index) => (
+        <Suspense fallback={<p>Loading feed...</p>}>{screenShots.slice(0, 8).map((imageData, index) => (
               <Image
                 src={`https://shikimori.one${imageData.original}`}
                 alt={data.name}
@@ -27,7 +26,9 @@ async function Animes({ params }) {
                 className=""
                 key={index}
               />
-            ))}
+            ))} </Suspense>
+
+            
           </div>
           <div className="w-full">
             <Image
@@ -53,6 +54,20 @@ async function Animes({ params }) {
               >
                 {externalData.kind}
               </Link>
+            ))}
+          </div>
+          <div className="flex mt-[1rem] gap-2 flex-wrap">
+            {videoUrl.slice(0, 1).map((video, index) => (
+              <iframe
+                className="rounded-lg w-full md:w-[60%]"
+                src={video.player_url}
+                height="380"
+                style={{ border: 0 }}
+                allow="fullscreen"
+                loading="lazy"
+                role="presentation"
+                key={index}
+              ></iframe>
             ))}
           </div>
         </div>
